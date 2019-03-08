@@ -1,28 +1,44 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Map from './Map.js';
+import ThemeSelector from './ThemeSelector.js';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            theme: 'reduced.day',
+        }
+
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(evt) {
+        evt.preventDefault();
+
+        var change = evt.target.id;
+        console.log('selected ' + change);
+        this.setState({
+            "theme": change,
+        });
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <Map
+                    app_id="3aAoGPS0CJpmUF0Rp7AL"
+                    app_code="Du1FfeCrYxgPgGlPvO836g"
+                    lat="42.345978"
+                    lng="-83.0405"
+                    zoom="12"
+                    theme={ this.state.theme }
+                />
+                <ThemeSelector changeTheme={ this.onChange } />
+            </div>
+        );
+    }
 }
 
 export default App;
