@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "./Map.css";
 
 class Map extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class Map extends Component {
             map: null,
             theme: props.theme,
             style: props.style,
+            margin: '0px',
         }
     }
 
@@ -38,7 +40,9 @@ class Map extends Component {
     }
 
     getUI(map, layers) {
-        return new window.H.ui.UI.createDefault(map, layers);
+        var ui = window.H.ui.UI.createDefault(map, layers);
+        return ui;
+        //return new window.H.ui.UI.createDefault(map, layers);
     }
 
     componentDidMount() {
@@ -56,6 +60,9 @@ class Map extends Component {
         var behavior = this.getBehavior(events);
         // eslint-disable-next-line
         var ui = this.getUI(this.map, layers);
+        //Managing the Position of UI Controls
+        var zoom = ui.getControl('zoom');
+        zoom.setAlignment('top-right');
     }
 
     shouldComponentUpdate(props, state) {
@@ -77,7 +84,8 @@ class Map extends Component {
 
     render() {
         return (
-            <div id="here-map" style={{width: '100%', height: '400px', background: 'grey' }} />
+            //He puesto padding top para que el mapa no se quede debajo del navbar 
+            <div className="here-map" id="here-map" func ={this.handleClick } style={{position: 'absolute', paddingTop:'55px', bottom: 0, width: '100%', height: '100vh', background: 'grey', marginLeft:this.state.margin }} />
         );
     }
 }
