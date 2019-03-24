@@ -11,7 +11,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      theme: "reduced.day"
+      theme: "reduced.day",
+      Geocode: ""
     };
 
     //funcion para aplicar margen al mapa y cambiar el width del mapa dependiendo de si el menu esta abierto o cerrado
@@ -31,13 +32,13 @@ class App extends Component {
         }
       };
 
-    this.onChange = this.onChange.bind(this);
+    this.onChangeGeocode = this.onChangeGeocode.bind(this);
   }
 
   componentDidMount() {
   }
   
-
+/* 
   onChange(evt) {
     evt.preventDefault();
 
@@ -47,32 +48,42 @@ class App extends Component {
       theme: change,
     });
   }
+ */
+
+ //Metodo que actualiza la direccion a partir del textbox del elemento Formplaces
+  onChangeGeocode = (evt) => {
+    evt.preventDefault();
+
+    var direction = evt.target.value;
+
+    this.setState({
+      Geocode: direction,
+    });
+  }
+
+  //Metodo que se ejecutar al clickar el boton de Formplaces y llama a la funcion para mostrar la direccion del elemento Map
+  ongotoGeocode = () => {
+    this.refs.map.showDirection(this.state.Geocode);
+  }
 
   render() {
     return (
       <div id="App" className="App">
            <NavBar id="navbar"/>
         <Menu id="Menu" onStateChange={ this.isMenuOpen } noOverlay pageWrapId={ "page-wrap" } outerContainerId={"App"}>
-          <FormPlaces></FormPlaces>
-          <a id="home" className="menu-item" href="/">
-            Home
-          </a>
-          <a id="about" className="menu-item" href="/about">
-            About
-          </a>
-          <a id="contact" className="menu-item" href="/contact">
-            Contact
-          </a>
+          <FormPlaces changeGeocode={ this.onChangeGeocode } gotoGeocode={ this.ongotoGeocode }></FormPlaces>
         </Menu>
-        <Map
+        <Map  ref="map"
                 app_id="3aAoGPS0CJpmUF0Rp7AL"
                 app_code="Du1FfeCrYxgPgGlPvO836g"
                 lat="39.4697"
                 lng="-0.3774"
                 zoom="13"
-                theme={this.state.theme}
+                theme="normal.day"
+                /* theme={this.state.theme} */
               />
 
+{/*  <ThemeSelector changeTheme={ this.onChange } /> */}
      
       </div>
     );
